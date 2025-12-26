@@ -6,27 +6,17 @@ A Spring Boot REST API for organization-based user and role management, secured 
 Features include:
 
 Authentication with JWT
-
 Organization-scoped users
-
 Role management (assign / revoke)
-
 Admin-only protected endpoints
-
 Database migrations with Flyway
-
 Fully Dockerized setup
 
 🛠 Tech Stack
-
 Java 21
-
 Spring Boot
-
 Spring Security (JWT)
-
 PostgreSQL
-
 Flyway
 
 Docker & Docker Compose
@@ -76,3 +66,9 @@ If your project includes Maven Wrapper (recommended)
 
 3. Rebuild and run
    docker compose up --build
+
+To START the project has one seeded organization with one admin 
+email:superadmin@org.com
+pass:Admin123!
+You should login with it first in postman to access the token.
+
