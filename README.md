@@ -1,27 +1,63 @@
 Org User Role Service
-📌 Purpose
+📌 Overview
 
-A Spring Boot REST API for organization-based user and role management, secured with JWT authentication and role-based authorization.
+This project is a Spring Boot REST API that manages Organizations, Users, and Roles with JWT-based authentication and role-based access control.
 
-Features include:
+There are two main user types:
 
-Authentication with JWT
-Organization-scoped users
-Role management (assign / revoke)
-Admin-only protected endpoints
-Database migrations with Flyway
-Fully Dockerized setup
+Organization Admin (ORG_ADMIN)
+Regular User (ORG_USER)
 
-🛠 Tech Stack
-Java 21
-Spring Boot
-Spring Security (JWT)
-PostgreSQL
-Flyway
+Access to endpoints is strictly enforced using Spring Security .
 
-Docker & Docker Compose
 
-Swagger / OpenAPI
+What an Admin Can Do (ORG_ADMIN)
+Admins have full control within their organization only.
+✅ Admin Permissions
+
+Create users in their organization
+List all users in their organization
+Delete users in their organization
+Assign roles to users
+Revoke roles from users
+Create new roles
+Delete roles (only if not assigned to users)
+View organization details
+
+Admin Endpoints:
+POST   /users/create
+GET    /users/list
+DELETE /users/delete/{id}
+POST   /users/assign-role/{id}/{roleName}
+DELETE /users/revoke-role/{id}/{roleName}
+POST   /roles/create
+DELETE /roles/delete/{roleName}
+GET    /organization/get-current
+
+✅ User Permissions(ORG_USER)
+Regular users have self-service access only.
+
+View their own profile
+Update their own profile
+
+🔗 User Endpoints
+GET   /users/get-profile  & 
+GET /auth/get-current-user (works same as get-profile but can be for both ADMIN/USER)
+PATCH /users/update-profile
+
+
+Unauthorized Access Behavior
+ regular user attempts to access an admin-only endpoint, the API responds with:
+Response (403 Forbidden)
+{
+"status": 403,
+"message": "Only admins have access."
+}
+
+This behavior is enforced using:
+@PreAuthorize("hasRole('ORG_ADMIN')")
+Custom Spring Security handlers
+
 
 ▶️ How to Run (Local)
 
@@ -71,4 +107,25 @@ To START the project has one seeded organization with one admin
 email:superadmin@org.com
 pass:Admin123!
 You should login with it first in postman to access the token.
+
+
+Features include:
+
+Authentication with JWT
+Organization-scoped users
+Role management (assign / revoke)
+Admin-only protected endpoints
+Database migrations with Flyway
+Fully Dockerized setup
+
+🛠 Tech Stack
+Java 21
+Spring Boot
+Spring Security (JWT)
+PostgreSQL
+Flyway
+
+Docker & Docker Compose
+
+Swagger / OpenAPI
 
