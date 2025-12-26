@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:17
+    container_name: orgdb
+    environment:
+      POSTGRES_DB: orgdb
+      POSTGRES_USER: orguser
+      POSTGRES_PASSWORD: orgpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - orgdb_data:/var/lib/postgresql/data
+
+  api:
+    image: org-user-role-service:latest
+    container_name: org-user-role-service
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/orgdb
+      SPRING_DATASOURCE_USERNAME: orguser
+      SPRING_DATASOURCE_PASSWORD: orgpass
+      APP_JWT_SECRET: wertfghjwksv3d45v67d89vdb4d56byud6u7uj3456tyui
+      APP_JWT_ISSUER: org-user-role-service
+      APP_JWT_ACCESSTOKENMINUTES: 80
+    ports:
+      - "8080:8080"
+
+volumes:
+  orgdb_data:
