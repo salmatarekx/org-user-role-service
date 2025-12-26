@@ -63,3 +63,16 @@ src/main/resources/db/migration
 
 
 They are applied automatically at startup.
+
+IF you face an error  try this commands:
+If you have Maven installed
+mvn -DskipTests clean package
+
+If your project includes Maven Wrapper (recommended)
+.\mvnw.cmd -DskipTests clean package
+
+2. Confirm you now have a JAR
+   dir .\target\*.jar
+
+3. Rebuild and run
+   docker compose up --build
